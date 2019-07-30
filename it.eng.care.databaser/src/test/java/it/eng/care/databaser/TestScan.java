@@ -2,7 +2,7 @@ package it.eng.care.databaser;
 
 import java.nio.file.Paths;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import it.eng.care.databaser.model.ResourceScanner;
 

@@ -34,7 +34,7 @@
 			<artifactId>it.fmoon.fxapp</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -54,8 +54,8 @@
 			<artifactId>ojdbc6</artifactId>
 			<version>${oracle_version}</version>
 		</dependency>
-		
-		
+
+
 
 
 	</dependencies>
@@ -69,6 +69,72 @@
 				</includes>
 			</resource>
 		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo.webstart</groupId>
+				<artifactId>webstart-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<!-- bind to phase, I prefer to call it manualls -->
+						<phase>package</phase>
+						<goals>
+							<goal>jnlp-inline</goal> 
+							<!-- use jnlp, jnlp-inline or jnlp-single as appropriate -->
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!--outputDirectory></outputDirectory --> <!-- not required?? -->
+
+					<!-- Set to true to exclude all transitive dependencies. Default is 
+						false. -->
+					<excludeTransitive>false</excludeTransitive>
+
+					<!-- The path where the libraries are stored within the jnlp structure. 
+						not required. by default the libraries are within the working directory -->
+					<libPath>lib</libPath>
+					<outputJarVersions>true</outputJarVersions>
+					<!-- [optional] transitive dependencies filter - if omitted, all transitive 
+						dependencies are included -->
+					<dependencies>
+						<!-- Note that only groupId and artifactId must be specified here. 
+							because of a limitation of the Include/ExcludesArtifactFilter -->
+						<!-- <includes> <include>commons-logging:commons-logging</include> 
+							<include>commons-cli:commons-cli</include> </includes> -->
+						<!-- <excludes> <exclude></exclude> <excludes> -->
+					</dependencies>
+
+					<!-- <resourcesDirectory>${project.basedir}/src/main/jnlp/resources</resourcesDirectory> -->
+					<!-- default value -->
+
+					<!-- JNLP generation -->
+					<jnlp>
+						<!-- default values -->
+						<!--inputTemplateResourcePath>${project.basedir}</inputTemplateResourcePath -->
+						<!--inputTemplate>src/main/jnlp/template.vm</inputTemplate --> <!-- relative to inputTemplateResourcePath -->
+						<outputFile>app.jnlp</outputFile> <!-- defaults to launch.jnlp -->
+
+						<!-- used to automatically identify the jar containing the main class. -->
+						<!-- this is perhaps going to change -->
+						<mainClass>it.eng.care.databaser.DatabaserApp</mainClass>
+					</jnlp>
+
+
+					<!-- BUILDING PROCESS -->
+
+					<gzip>true</gzip> <!-- default force when pack200 false, true when pack200 selected ?? -->
+
+					<!-- causes a version attribute to be output in each jar resource element, 
+						optional, default is false -->
+					<outputJarVersions>false</outputJarVersions>
+
+					<!--install>false</install --> <!-- not yet supported -->
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
+		</plugins>
+
 	</build>
 
 </project>
